@@ -95,7 +95,9 @@ in
                     libfdk-aac-dev \
                     libimlib2-dev \
                     libopus-dev \
-                    libpixman-1-dev"
+                    libpixman-1-dev \
+                    libx264-dev
+                    libopenh264-dev"
                 ;;
             *)
                 echo "unsupported feature set: $FEATURE_SET"
