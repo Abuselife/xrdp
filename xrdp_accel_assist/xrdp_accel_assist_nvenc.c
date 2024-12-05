@@ -133,6 +133,7 @@ xrdp_accel_assist_nvenc_create_encoder(int width, int height, int tex,
     LOG(LOG_LEVEL_INFO, "nvEncOpenEncodeSessionEx rv %d enc %p", nv_error, lei->enc);
     if (nv_error != NV_ENC_SUCCESS)
     {
+        g_free(lei);
         return 1;
     }
 
@@ -226,6 +227,7 @@ xrdp_accel_assist_nvenc_create_encoder(int width, int height, int tex,
     LOG(LOG_LEVEL_INFO, "nvEncInitializeEncoder rv %d", nv_error);
     if (nv_error != NV_ENC_SUCCESS)
     {
+        g_free(lei);
         return 1;
     }
 
@@ -254,6 +256,7 @@ xrdp_accel_assist_nvenc_create_encoder(int width, int height, int tex,
     LOG(LOG_LEVEL_INFO, "nvEncRegisterResource rv %d", nv_error);
     if (nv_error != NV_ENC_SUCCESS)
     {
+        g_free(lei);
         return 1;
     }
 
@@ -264,6 +267,7 @@ xrdp_accel_assist_nvenc_create_encoder(int width, int height, int tex,
     LOG(LOG_LEVEL_INFO, "nvEncMapInputResource rv %d", nv_error);
     if (nv_error != NV_ENC_SUCCESS)
     {
+        g_free(lei);
         return 1;
     }
 
@@ -274,6 +278,7 @@ xrdp_accel_assist_nvenc_create_encoder(int width, int height, int tex,
     LOG(LOG_LEVEL_INFO, "nvEncCreateBitstreamBuffer rv %d", nv_error);
     if (nv_error != NV_ENC_SUCCESS)
     {
+        g_free(lei);
         return 1;
     }
 
