@@ -184,6 +184,10 @@ AC_ARG_ENABLE(nvenc, AS_HELP_STRING([--enable-nvenc],
                XRDP_NVENC_LIBS should be set if used]),
               [], [enable_nvenc=no])
 AM_CONDITIONAL(XRDP_NVENC, [test x$enable_nvenc = xyes])
+AC_ARG_ENABLE(accel, AS_HELP_STRING([--enable-accel],
+              [Build xrdp_accel_assist (default: no, auto set if --enable-nvenc)]),
+              [], [enable_accel=no])
+# AM_CONDITIONAL(XRDP_ACCEL, [test x$enable_accel = xyes]) later in this file
 AC_ARG_ENABLE(painter, AS_HELP_STRING([--disable-painter],
               [Do not use included painter library (default: no)]),
               [], [enable_painter=yes])
@@ -509,6 +513,7 @@ AS_IF( [test "x$enable_openh264" = "xyes"] , [PKG_CHECK_MODULES(XRDP_OPENH264, o
 
 if test "x$enable_nvenc" = "xyes"
 then
+enable_accel=$enable_nvenc
 if test ! -z "$XRDP_NVENC_CFLAGS"
 then
   AC_SUBST(XRDP_NVENC_CFLAGS, ["$XRDP_NVENC_CFLAGS"])
@@ -518,6 +523,8 @@ then
   AC_SUBST(XRDP_NVENC_LIBS, ["$XRDP_NVENC_LIBS"])
 fi
 fi
+
+AM_CONDITIONAL(XRDP_ACCEL, [test x$enable_accel = xyes])
 
 # checking for TurboJPEG
 if test "x$enable_tjpeg" = "xyes"
@@ -698,6 +705,7 @@ echo "  rfxcodec                $enable_rfxcodec"
 echo "  x264                    $enable_x264"
 echo "  openh264                $enable_openh264"
 echo "  nvenc                   $enable_nvenc"
+echo "  accel                   $enable_accel"
 echo "  painter                 $enable_painter"
 echo "  pixman                  $enable_pixman"
 echo "  fuse                    $enable_fuse"

@@ -19,7 +19,7 @@
 /* Currently nvenc requires GLX because NVidia's EGL does not have
  * EGL_NOK_texture_from_pixmap extension but NVidia's GLX does have
  * GLX_EXT_texture_from_pixmap.  We require one if those,
- * also, yami required EGL because it used dma bufs.
+ * also, va required EGL because it used dma bufs.
  * I do not think any vendor's GLX support dma bufs */
 /* Things like render on one GPU and encode with another is possible
  * but not supported now. */
@@ -57,10 +57,6 @@
 #include "xrdp_accel_assist_nvenc.h"
 #endif
 
-#if defined(XRDP_YAMI)
-#include "xrdp_accel_assist_yami.h"
-#endif
-
 /* X11 */
 Display *g_display = NULL;
 static int g_x_socket = 0;
@@ -70,7 +66,7 @@ Window g_root_window = None;
 static Visual *g_vis = NULL;
 static GC g_gc;
 
-/* encoders: nvenc or yami */
+/* encoders: nvenc or va */
 struct enc_funcs
 {
     int (*init)(void);
@@ -85,14 +81,7 @@ struct enc_funcs
 static struct enc_funcs g_enc_funcs[] =
 {
     {
-#if defined(XRDP_YAMI)
-        xrdp_accel_assist_yami_init,
-        xrdp_accel_assist_yami_create_encoder,
-        xrdp_accel_assist_yami_delete_encoder,
-        xrdp_accel_assist_yami_encode
-#else
         NULL, NULL, NULL, NULL
-#endif
     },
     {
 #if defined(XRDP_NVENC)
@@ -135,13 +124,13 @@ static struct inf_funcs g_inf_funcs[] =
 };
 
 /* 0 = EGL, 1 = GLX */
-/* 0 = yami, 1 = nvenc */
+/* 0 = va, 1 = nvenc */
 #define INF_EGL     0
 #define INF_GLX     1
-#define ENC_YAMI    0
+#define ENC_VA      0
 #define ENC_NVENC   1
 static int g_inf = INF_EGL;
-static int g_enc = ENC_YAMI;
+static int g_enc = ENC_VA;
 
 struct mon_info
 {
@@ -276,7 +265,7 @@ xrdp_accel_assist_x11_init(void)
     else
     {
         g_inf = INF_EGL;
-        g_enc = ENC_YAMI;
+        g_enc = ENC_VA;
         if (g_inf_funcs[g_inf].init() != 0)
         {
             LOG(LOG_LEVEL_ERROR, "xrdp_accel_assist_x11_init: "
@@ -672,7 +661,7 @@ xrdp_accel_assist_x11_create_pixmap(int width, int height, int magic,
         mi->viewport.w = width;
         mi->viewport.h = height * 3 / 2;
     }
-    else if (g_enc == ENC_YAMI)
+    else if (g_enc == ENC_VA)
     {
         LOG(LOG_LEVEL_INFO, "xrdp_accel_assist_x11_create_pixmap: "
             "using XH_YUV422");

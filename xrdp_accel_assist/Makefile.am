@@ -13,13 +13,6 @@ XRDP_EXTRA_LIBS += $(XRDP_NVENC_LIBS)
 XRDP_EXTRA_SOURCES += xrdp_accel_assist_nvenc.c xrdp_accel_assist_nvenc.h encoder_headers/nvEncodeAPI_11_1.h
 endif
 
-if XRDP_YAMI
-AM_CPPFLAGS += -DXRDP_YAMI
-AM_CPPFLAGS += $(XRDP_YAMI_CFLAGS)
-XRDP_EXTRA_LIBS += $(XRDP_YAMI_LIBS)
-XRDP_EXTRA_SOURCES += xrdp_accel_assist_yami.c xrdp_accel_assist_yami.h encoder_headers/yami_inf.h
-endif
-
 pkglibexec_PROGRAMS = \
   xrdp-accel-assist
 

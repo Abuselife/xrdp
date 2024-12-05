@@ -44,6 +44,12 @@ else
 ULALACADIR =
 endif
 
+if XRDP_ACCEL
+ACCELDIR = xrdp_accel_assist
+else
+ACCELDIR =
+endif
+
 # This should not be dictionary order but build order
 SUBDIRS = \
   third_party \
@@ -71,7 +77,7 @@ SUBDIRS = \
   $(ULALACADIR) \
   tests \
   tools \
-  xrdp_accel_assist
+  $(ACCELDIR)
 
 distclean-local:
 	-rm -f xrdp_configure_options.h
