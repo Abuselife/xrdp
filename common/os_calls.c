@@ -155,7 +155,7 @@ g_init(const char *app_name)
     WSAStartup(2, &wsadata);
 #endif
 #if defined(XRDP_NVENC)
-    if (g_strcmp(app_name, "xrdp") == 0)
+    if (g_strcmp(app_name, "xrdp-sesman") == 0)
     {
         /* call cuInit() to initalize the nvidia drivers */
         /* TODO create an issue on nvidia forums to figure out why we need to
