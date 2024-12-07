@@ -173,10 +173,10 @@ gfx_wiretosurface1(struct xorgxrdp_info *xi, struct stream *s)
         xi->idr_count--;
     }
     rv = xrdp_accel_assist_x11_encode_pixmap(0, 0,
-                                             width, height, surface_id,
-                                             num_rects_c, crects,
-                                             addr, &cdata_bytes,
-                                             encoder_flags);
+         width, height, surface_id,
+         num_rects_c, crects,
+         addr, &cdata_bytes,
+         encoder_flags);
     LOG_DEVEL(LOG_LEVEL_INFO, "gfx_wiretosurface1: rv %d cdata_bytes %d",
               rv, cdata_bytes);
 
@@ -436,11 +436,11 @@ xorg_process_message_64(struct xorgxrdp_info *xi, struct stream *s)
                         xi->idr_count--;
                     }
                     rv = xrdp_accel_assist_x11_encode_pixmap(left, top,
-                            width, height,
-                            (flags >> 28) & 0xF,
-                            num_crects, crects,
-                            bmpdata + 4,
-                            &cdata_bytes, encoder_flags);
+                         width, height,
+                         (flags >> 28) & 0xF,
+                         num_crects, crects,
+                         bmpdata + 4,
+                         &cdata_bytes, encoder_flags);
                     if (rv == ENCODER_ERROR)
                     {
                         LOG(LOG_LEVEL_ERROR, "error %d", rv);
